@@ -8,12 +8,15 @@
     <h1 class="display-4">Create or edit and expense</h1>
 </div>
 
-<form>
-    <label>Id</label>
-    <input class="form-control" type="number" placeholder="0" asp-for="Id"/>
+<form asp-action="CreateEditItemForm" asp-controller="Home">
+
+    <input hidden class="form-control" type="number" placeholder="0" asp-for="Id"/>
 
     <label class="mt-2">Item Name</label>
     <input class="form-control" type="text" placeholder="Enter Name" asp-for="ItemName" />
+
+    <label class="mt-2">Category</label>
+    <input class="form-control" type="text" placeholder="Enter Category" asp-for="Category" />
 
     <label class="mt-2">Description</label>
     <input class="form-control" type="text" placeholder="Enter Description" asp-for="Description" />

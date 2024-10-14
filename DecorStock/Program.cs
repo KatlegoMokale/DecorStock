@@ -1,3 +1,6 @@
+using DecorStock.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace DecorStock
 {
     public class Program
@@ -8,6 +11,9 @@ namespace DecorStock
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ItemsDbContext>(options => options.UseInMemoryDatabase("ItemsDb"));
+
+
 
             var app = builder.Build();
 

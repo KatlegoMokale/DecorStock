@@ -2,6 +2,70 @@
     ViewData["Title"] = "Items";
 }
 
+@model List<Item>
+
 <div class="text-center">
     <h1 class="display-4">Items</h1>
+    <br />
+    <hr />
+    <h3>Total Item Price R @ViewBag.Items</h3>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Item Name
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>    
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.ItemName
+                        </td>
+                        <td>
+                            @item.Category
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @item.Price
+                        </td>
+                        <td>
+                            <a asp-action="CreateEditItems" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>

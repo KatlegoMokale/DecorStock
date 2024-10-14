@@ -8,9 +8,12 @@ namespace DecorStock.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        readonly ItemsDbContext _itemsDbContext;
+
+        public HomeController(ILogger<HomeController> logger, ItemsDbContext itemsDbContext)
         {
             _logger = logger;
+            _itemsDbContext = itemsDbContext;
         }
 
         public IActionResult Index()
@@ -20,12 +23,48 @@ namespace DecorStock.Controllers
 
         public IActionResult Items()
         {
+            var allItems = _itemsDbContext.Items.ToList();
+
+            var totalItemsPrice = allItems.Sum(x => x.Price);
+
+            ViewBag.Items = totalItemsPrice;
+
+            return View(allItems);
+        }
+
+        public IActionResult CreateEditItems(int? id)
+        {
+            if (id != null) 
+            {
+                var itemInDb = _itemsDbContext.Items.SingleOrDefault(item => item.Id == id);
+                return View(itemInDb);
+            }
             return View();
         }
 
-        public IActionResult CreateEditItems()
+        public IActionResult DeleteItem(int id) 
         {
-            return View();
+            var itemInDb = _itemsDbContext.Items.SingleOrDefault(item => item.Id == id);
+            _itemsDbContext.Items.Remove(itemInDb);
+            _itemsDbContext.SaveChanges();
+            return RedirectToAction("Items");
+        }
+
+        public IActionResult CreateEditItemForm(Item model)
+        {
+            if (model.Id == 0 )
+            {
+                // Creating an Item
+                _itemsDbContext.Items.Add(model);
+            } else
+            {
+                _itemsDbContext.Items.Update(model);
+            }
+
+           
+            _itemsDbContext.SaveChanges();
+
+            return RedirectToAction("Items");
         }
 
         public IActionResult Privacy()
